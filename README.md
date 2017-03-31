@@ -18,6 +18,12 @@ cd build
 make
 make upload
 ```
+Alternatively, upload.py enables you to do this more simply
+
+```
+sudo ./upload.py 	#cleans, builds and uploads
+sudo ./upload.py (optional)[BUILD|RESET|UPLOAD|CLEAN] (optional)-p DEV_NAME
+```
 
 View the output on screen
 
