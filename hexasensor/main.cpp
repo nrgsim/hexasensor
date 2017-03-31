@@ -8,7 +8,7 @@
 #include "Adafruit_ADS1015.h"
 
 #define SERIAL_BAUD     9600
-#define DELAY_TIME_MS   250
+#define DELAY_TIME_MS   100
 
 //Initiate Device Contexts
 Adafruit_HTU21DF htu = Adafruit_HTU21DF();
@@ -46,7 +46,7 @@ float getTemperature()
   float c = mcp.readTempC();
   //float f = c * 9.0 / 5.0 + 32; //Use for Farenheit
 
-  delay(DELAY_TIME_MS);
+  delay(250);
 
   //Shut down the MCP9808
   mcp.shutdown_wake(1);
@@ -61,19 +61,24 @@ void loop() {
   sensors_event_t event;
   tsl.getEvent(&event);
 
-  Serial.print("The temperature "); Serial.print(getTemperature()); Serial.print("\n");
-  Serial.print("Humidity "); Serial.print(htu.readHumidity()); Serial.print(" %\n");
-  if (event.light)
+  Serial.print(getTemperature()); Serial.print(", ");
+  Serial.print(htu.readHumidity()); Serial.print(", ");
+  if(event.light)
   {
-    Serial.print(event.light); Serial.println(" lux");
+	Serial.print(event.light);
   }
+  else
+  {
+	Serial.print("0");
+  }
+  Serial.println(",");
 
   //Gather data from the ADS1015
-  int16_t adc3;
+ // int16_t adc3;
 
-  adc3 = ads.readADC_SingleEnded(3);
-  delay(DELAY_TIME_MS);
-  Serial.print("AIN3: "); Serial.println(adc3);
+  //adc3 = ads.readADC_SingleEnded(3);
+  //delay(DELAY_TIME_MS);
+  //Serial.print("AIN3: "); Serial.println(adc3);
 
   delay(DELAY_TIME_MS);
 }
