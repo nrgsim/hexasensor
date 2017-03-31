@@ -1,7 +1,7 @@
 # Hexasensor
 This repository contains the arduino code for the hexasensor. It uses the CMake build process utility to generate makefiles, compile and upload to the board. Also, it contains several Adafruit sensor libraries.
 
-#Build
+# Build
 
 ## Dependencies
 Hexasensor requires these dependencies in order to build and upload to the arduino.
@@ -26,7 +26,7 @@ screen \dev\ttyACM0 9600
 ```
 NOTE: the device may differ on your machine. Check for the name in the /dev folder.
 
-#Resources
+# Resources
 These github projects are used in the hexasensor:
 - [MCP9808](https://github.com/adafruit/Adafruit_MCP9808_Library)
 - [HTU21D Library](https://github.com/adafruit/Adafruit_HTU21DF_Library)
