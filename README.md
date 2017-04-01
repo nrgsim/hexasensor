@@ -28,7 +28,7 @@ sudo ./upload.py (optional)[BUILD|RESET|UPLOAD|CLEAN] (optional)-p DEV_NAME
 View the output on screen
 
 ```
-screen \dev\ttyACM0 9600
+screen /dev/ttyACM0 9600
 ```
 NOTE: the device may differ on your machine. Check for the name in the /dev folder.
 
