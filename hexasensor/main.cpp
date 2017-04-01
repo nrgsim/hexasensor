@@ -7,14 +7,21 @@
 #include "Adafruit_HTU21DF.h"
 #include "Adafruit_ADS1015.h"
 
+#include "stat_filter.h"
+
 #define SERIAL_BAUD     9600
 #define DELAY_TIME_MS   100
+
+typedef Stat_Filter<float, 8> fsf_t;
 
 //Initiate Device Contexts
 Adafruit_HTU21DF htu = Adafruit_HTU21DF();
 Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
 Adafruit_MCP9808 mcp = Adafruit_MCP9808();
 Adafruit_ADS1015 ads;
+
+//Filter for the TSL2461
+fsf_t tsl_filt(0);
 
 
 void setup() {
@@ -33,6 +40,9 @@ void setup() {
   if (!tsl.begin()) {
     Serial.println("Couldn't find TSL2561!");
     while (1); }
+
+  //Return is void
+    ads.begin();
 
 }
 
@@ -61,24 +71,35 @@ void loop() {
   sensors_event_t event;
   tsl.getEvent(&event);
 
+  int16_t adc0, adc1, adc2;
+
   Serial.print(getTemperature()); Serial.print(", ");
   Serial.print(htu.readHumidity()); Serial.print(", ");
   if(event.light)
   {
-	Serial.print(event.light);
+    tsl_filt.add_reading(float(event.light));
+	Serial.print(tsl_filt.get_mean()); Serial.print(", ");
   }
   else
   {
-	Serial.print("0");
+    tsl_filt.add_reading(float(0.0f));
+  Serial.print(tsl_filt.get_mean()); Serial.print(", ");
   }
-  Serial.println(",");
 
-  //Gather data from the ADS1015
- // int16_t adc3;
+  float multiplier = 3.0F;
+  float sf = .01;
+  adc0 = ads.readADC_Differential_0_3();
+  delay(DELAY_TIME_MS);
+  adc1 = ads.readADC_Differential_1_3();
+  delay(DELAY_TIME_MS);
+  adc2 = ads.readADC_Differential_2_3();
+  delay(DELAY_TIME_MS);
 
-  //adc3 = ads.readADC_SingleEnded(3);
-  //delay(DELAY_TIME_MS);
-  //Serial.print("AIN3: "); Serial.println(adc3);
+  Serial.print(adc0 * multiplier * sf); Serial.print(", ");
+  Serial.print(adc1 * multiplier * sf); Serial.print(", ");
+  Serial.print(adc2 * multiplier * sf); Serial.println(", ");
+
+
 
   delay(DELAY_TIME_MS);
 }

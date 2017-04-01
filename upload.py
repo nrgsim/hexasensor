@@ -34,7 +34,7 @@ OUT = open(os.devnull, 'w')
 PORT = 'ttyACM0'
 
 def reset_arduino(port = 'ttyACM0'):
-    print(bcolors.OKGREEN + "Serial Reseting Arduino..."
+    print(bcolors.OKGREEN + "Serial Resetting Arduino..."
       + bcolors.ENDC)
     arduino = serial.Serial('/dev/'+port,
                          baudrate=9600,

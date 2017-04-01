@@ -173,7 +173,7 @@ void Adafruit_TSL2561_Unified::getData (uint16_t *broadband, uint16_t *ir)
     Constructor
 */
 /**************************************************************************/
-Adafruit_TSL2561_Unified::Adafruit_TSL2561_Unified(uint8_t addr, int32_t sensorID) 
+Adafruit_TSL2561_Unified::Adafruit_TSL2561_Unified(uint8_t addr, int32_t sensorID)
 {
   _addr = addr;
   _tsl2561Initialised = false;
@@ -193,7 +193,7 @@ Adafruit_TSL2561_Unified::Adafruit_TSL2561_Unified(uint8_t addr, int32_t sensorI
     doing anything else)
 */
 /**************************************************************************/
-boolean Adafruit_TSL2561_Unified::begin(void) 
+boolean Adafruit_TSL2561_Unified::begin(void)
 {
   Wire.begin();
 
@@ -214,7 +214,7 @@ boolean Adafruit_TSL2561_Unified::begin(void)
 
   return true;
 }
-  
+
 /**************************************************************************/
 /*!
     @brief  Enables or disables the auto-gain settings when reading
@@ -368,8 +368,8 @@ uint32_t Adafruit_TSL2561_Unified::calculateLux(uint16_t broadband, uint16_t ir)
 {
   unsigned long chScale;
   unsigned long channel1;
-  unsigned long channel0;  
-  
+  unsigned long channel0;
+
   /* Make sure the sensor isn't saturated! */
   uint16_t clipThreshold;
   switch (_tsl2561IntegrationTime)
@@ -483,10 +483,10 @@ uint32_t Adafruit_TSL2561_Unified::calculateLux(uint16_t broadband, uint16_t ir)
 bool Adafruit_TSL2561_Unified::getEvent(sensors_event_t *event)
 {
   uint16_t broadband, ir;
-  
+
   /* Clear the event */
   memset(event, 0, sizeof(sensors_event_t));
-  
+
   event->version   = sizeof(sensors_event_t);
   event->sensor_id = _tsl2561SensorID;
   event->type      = SENSOR_TYPE_LIGHT;
@@ -495,9 +495,9 @@ bool Adafruit_TSL2561_Unified::getEvent(sensors_event_t *event)
   /* Calculate the actual lux value */
   getLuminosity(&broadband, &ir);
   event->light = calculateLux(broadband, ir);
-  
+
   if (event->light == 65536) {
-    return false;	
+    return false;
   }
   return true;
 }
